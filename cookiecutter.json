@@ -3,7 +3,6 @@
     "author_slug": "{{cookiecutter.author_name.lower().replace(' ', '_')}}",
     "project_name": "Boilerplate",
     "project_slug": "{{cookiecutter.project_name.lower().replace(' ', '_')}}",
-    "project_secret_key": "Y2hhbmdldGhpcw==",
     "project_superuser_full_name": "changethis",
     "project_superuser_email": "changethis@example.com",
     "project_superuser_password": "changethis",
