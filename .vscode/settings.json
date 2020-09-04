@@ -1,0 +1,8 @@
+{
+    "restructuredtext.confPath": "",
+    "python.autoComplete.extraPaths": [
+        "{{cookiecutter.project_slug}}/workspace"
+    ],
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true
+}
