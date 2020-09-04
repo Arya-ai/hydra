@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+# Bash Script to run various configurations of {{cookiecutter.project_name}}
+: '
+    Commands:
+        ./run.sh <SERVICE> <COMMAND>
+            SERVICES:
+                -barebones: Barebones Docker Image
+                    COMMANDS:
+                        * build: docker build
+                        * rmi: docker rmi
+                - dc : Local docker-compose
+                    COMMANDS:
+                        * up <-d>: docker-compose up <-d>
+                        * down <-d>: docker-compose down <-d>
+                        * restart <container|all>: docker-compose restart <container|all>
+                        * rmi: Removes Local image
+                - dc-prod: Production docker-compose
+                    COMMANDS:
+                        * up <-d>: docker-compose up <-d>
+                        * down <-d>: docker-compose down <-d>
+                        * restart <container|all>: docker-compose restart <container|all>
+                        * rmi: Removes Production Image
+                        * save: Saves in SAVE_DIR
+                - app: Application created after docker-compose
+                    COMMANDS:
+                        * connect: Connect to application container (/bin/sh)
+                - rmi: Remove all images
+                - todo: Finds To-Do Tasks in the project
+'
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+# For Debugging
+# set -o xtrace
+
+ARG_LENGTH=$#
+SERVICE=${1:--1}
+COMMAND="${@:2}"
+
+SAVE_DIR="$(pwd)/images"
+
+API_IMAGE_NAME="arya/{{cookiecutter.project_slug}}-api"
+WORKER_IMAGE_NAME="arya/{{cookiecutter.project_slug}}-worker"
+
+case $SERVICE in
+    "barebones" )
+        echo "# Barebones"
+        case $COMMAND in
+            "build" )
+                docker build -f docker-files/barebones.local.dockerfile -t $API_IMAGE_NAME:barebones .
+                docker build -f docker-files/barebones.worker.dockerfile -t $WORKER_IMAGE_NAME:barebones .
+                ;;
+            "rmi" )
+                docker rmi $API_IMAGE_NAME:barebones
+                docker rmi $WORKER_IMAGE_NAME:barebones
+                ;;
+        esac
+        ;;
+    "dc" )
+        echo "# Local docker-compose"
+        case $COMMAND in
+            "rmi" )
+                docker rmi $API_IMAGE_NAME:local
+                ;;
+            * )
+                docker-compose -f docker-compose-files/docker-compose.local.yml $COMMAND
+                ;;
+        esac
+        ;;
+    "dc-worker" )
+        echo "# Worker docker-compose"
+        case $COMMAND in
+          "build" )
+                  docker build -f docker-files/worker.dockerfile -t $WORKER_IMAGE_NAME:local .
+                  ;;
+          "rmi" )
+                  docker rmi $WORKER_IMAGE_NAME:local
+                  ;;
+        esac
+        ;;
+    "app" )
+        echo "# Application Connect"
+        case $COMMAND in
+            "connect" )
+                docker exec -it {{cookiecutter.project_slug}}_api /bin/bash
+                ;;
+            * )
+                echo "### Invalid Command"
+        esac
+        ;;
+    "rmi" )
+        echo "Removing All Images"
+        docker rmi $WORKER_IMAGE_NAME:local
+        echo "-> Worker Image Removed"
+        docker rmi $API_IMAGE_NAME:local
+        echo "-> API Image Removed"
+        docker rmi $API_IMAGE_NAME:barebones
+        docker rmi $WORKER_IMAGE_NAME:barebones
+        echo "-> Barebones Image Removed"
+        echo "Done"
+        ;;
+    "build" )
+        echo "Building All Images"
+        docker build -f docker-files/barebones.local.dockerfile -t $API_IMAGE_NAME:barebones .
+        docker build -f docker-files/barebones.worker.dockerfile -t $WORKER_IMAGE_NAME:barebones .
+        echo "-> Barebones Image Built"
+        docker build -f docker-files/local.dockerfile -t $API_IMAGE_NAME:local .
+        echo "-> API Image Built"
+        docker build -f docker-files/worker.dockerfile -t $WORKER_IMAGE_NAME:local .
+        echo "-> Worker Image Built"
+        echo "Done"
+        ;;
+    "todos" )
+        echo "List of TODOs:"
+        grep -rnw . -e 'TODO'
+esac
