@@ -9,24 +9,15 @@ services:
         published: 80
         mode: host
         protocol: tcp
-      - target: 8443
-        published: 443
-        mode: host
-        protocol: tcp
     depends_on:
       - api
     volumes:
-      - ./resources/nginx/certs:/certs
       - ./resources/nginx/conf/application.conf:/opt/bitnami/nginx/conf/server_blocks/application.conf:ro
     networks:
       - internal_network
 
   api:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-      target: api-development
-    image: arya/{{cookiecutter.project_slug}}-api:local
+    image: arya/{{cookiecutter.project_slug}}-api:latest
     container_name: {{cookiecutter.project_slug}}_api
     depends_on:
       - postgresql
@@ -40,11 +31,7 @@ services:
       - internal_network
 
   worker:
-    build:
-      context: ./
-      dockerfile: Dockerfile
-      target: worker-development
-    image: arya/{{cookiecutter.project_slug}}-worker:local
+    image: arya/{{cookiecutter.project_slug}}-worker:latest
     container_name: {{cookiecutter.project_slug}}_worker
     depends_on:
       - api
