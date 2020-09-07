@@ -41,60 +41,18 @@ The input variables, with their default values (some auto generated) are:
 * ``rabbitmq_password``
 * ``rabbitmq_vhost``
 
-Run Command
-###########
-
-You can use the ./<project-slug>/run file to run some of the useful commands for the project
-
-    ``./run <SERVICE> <COMMAND>``
-
-``./run build``
------------------
-This command is used to build the initial images (local and worker).
-
-``./run rmi``
-This command is used to delete the initial images (local and worker).
-
-``./run todos``
----------------
-DEV ONLY: To see the active list of todos for the project.
-
-
-Services
+About
 ########
 
-``barebones`` Service
----------------------
+The template uses the following components:
 
-* ``build``: Builds the ``barebones`` image
-* ``rmi``: Removes the ``barebones`` image
+* NGINX: The Nginx container serves as a load balancer for the backend container.
+* Backend API: This is a FastAPI + Gunicorn container which runs multiple workers to serve as the API endpoint. This is exposed to the Nginx container.
+* Backend Worker: This container contains the celery workers which process the celery tasks published by the API asynchronously. 
+* PostgreSQL: Serves as the DB for the API as well as Celery, which uses it to keep track of results from the Celery tasks
+* RabbitMQ: Serves as the message broker to distribute celery tasks among the Celery workers.
 
-``dc`` Service
---------------
-This is a list of commands for running the service locally:
+More details
+############
 
-* ``up <-d>``: Run containers using docker-compose.
-* ``down <-d>``: Shutdown containers using docker-compose
-* ``restart <container_name|all>``: Restarts the containers using docker-compose
-* ``rmi``: Removes Local images.
-
-``dc-worker`` Service
----------------------
-This is list of commands for running the celery worker:
-
-* ``build``: To build only the worker image
-* ``rmi``: To delete only the worker image
-
-``app`` Service
----------------
-This is a list of commands for interacting with the application
-
-* ``connect``: Bash shell to the application container
-
-Getting Started
----------------
-Run the following commands once you have the project setup using the ``cookiecutter`` command:
-
-1. ``./run build``: To build the images that will be used for the project
-2. ``./run dc up``: To start the containers
-3. Done. There are some sample urls you can try out to see how celery is working with this. You can see the OpenAPI doc on http://localhost/docs
+More details are mentioned in the README.rst file inside the project directory.
