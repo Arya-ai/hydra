@@ -1,6 +1,4 @@
 {
-    "author_name": "Arya",
-    "author_slug": "{{cookiecutter.author_name.lower().replace(' ', '_')}}",
     "project_name": "Boilerplate",
     "project_slug": "{{cookiecutter.project_name.lower().replace(' ', '_')}}",
     "project_superuser_full_name": "changethis",
