@@ -1,14 +1,15 @@
 {
     "project_name": "Boilerplate",
     "project_slug": "{{cookiecutter.project_name.lower().replace(' ', '_')}}",
+    "project_secret_key": "{{random_ascii_string(32)}}",
     "project_superuser_full_name": "changethis",
     "project_superuser_email": "changethis@example.com",
-    "project_superuser_password": "changethis",
+    "project_superuser_password": "{{random_ascii_string(32)}}",
     "postgresql_username": "{{cookiecutter.project_slug}}_postgres",
-    "postgresql_password": "changethis",
+    "postgresql_password": "{{random_ascii_string(32)}}",
     "postgresql_database": "{{cookiecutter.project_slug}}_db",
-    "postgresql_root_password": "changethis",
+    "postgresql_root_password": "{{random_ascii_string(32)}}",
     "rabbitmq_username": "{{cookiecutter.project_slug}}_rabbit",
-    "rabbitmq_password": "changethis",
+    "rabbitmq_password": "{{random_ascii_string(32)}}",
     "rabbitmq_vhost": "{{cookiecutter.project_slug}}"
 }

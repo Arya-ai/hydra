@@ -1,5 +1,18 @@
 import subprocess
 
+SECRETS_FILENAME = ".secrets"
+SECRETS_CONTENT = """Project Secret Key: {{cookiecutter.project_secret_key}}
+
+PostgreSQL Root Password: {{cookiecutter.postgresql_root_password}}
+PostgreSQL First User Password: {{cookiecutter.postgresql_password}}
+
+RabbitMQ Password: {{cookiecutter.rabbitmq_password}}
+"""
+
+def write_secrets():
+    with open(SECRETS_FILENAME, 'w') as f:
+        f.write(SECRETS_CONTENT)
+
 def init_git():
     subprocess.call(['git', 'init'], stdout=subprocess.DEVNULL)
 
@@ -13,6 +26,8 @@ def commit():
 
 
 if __name__ == '__main__':
+    write_secrets()
+    print("# Created .secrets file for reference")
     init_git()
     add_all()
     commit()
