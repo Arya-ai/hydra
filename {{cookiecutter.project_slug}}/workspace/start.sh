@@ -15,3 +15,4 @@ echo 'Initialize Data'
 python app/scripts/initial_data.py
 
 exec gunicorn -c gunicorn_conf.py app.main:app
+# exec uvicorn --host 0.0.0.0 --port 80 app.main:app --reload

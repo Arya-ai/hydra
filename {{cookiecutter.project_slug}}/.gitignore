@@ -140,5 +140,8 @@ cython_debug/
 # PyEnv Version
 .python-version
 
-# VSCode
-.vscode
+# Secrets
+.secrets
+
+# Ignore .release
+.release

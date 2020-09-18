@@ -22,10 +22,6 @@ OPENAPI_URL = os.path.join(API_V1_STR, 'openapi.json')
 
 ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 8  # 60 minutes * 24 hours * 8 days = 8 days
 SECRET_KEY = os.getenv('SECRET_KEY')
-if SECRET_KEY:
-    SECRET_KEY = base64.b64decode(os.getenv('SECRET_KEY'))
-else:
-    SECRET_KEY = os.urandom(32)
 
 # Database Settings
 POSTGRES_SERVER = os.getenv('POSTGRES_SERVER')
@@ -54,4 +50,4 @@ LOGGING_CONFIG = {
 }
 
 # Celery
-CELERY_APP_NAME = 'Thresher'
+CELERY_APP_NAME = 'Hydra'
