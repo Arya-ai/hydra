@@ -50,4 +50,4 @@ LOGGING_CONFIG = {
 }
 
 # Celery
-CELERY_APP_NAME = 'Thresher'
+CELERY_APP_NAME = 'Hydra'

@@ -1,5 +1,5 @@
 ***********************************************
-Thresher
+Hydra
 ***********************************************
 A Cookiecutter Template for a Basic REST API with Basic Bearer Auth + Celery for async long running tasks modified from `tiangolo/full-stack-fastapi-postgresql <https://github.com/tiangolo/full-stack-fastapi-postgresql>`_
 This is still a WIP and I plan to add more features as and when they are ready. 
