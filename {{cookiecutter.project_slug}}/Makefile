@@ -32,6 +32,8 @@ DOCKER_FILE_PATH=Dockerfile
 
 .PHONY: pre-build docker-build post-build build clean release patch-release minor-release major-release tag check-status check-release showver
 
+default: build up
+
 build: pre-build docker-build post-build
 
 pre-build: .release

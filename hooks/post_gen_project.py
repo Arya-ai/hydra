@@ -3,6 +3,10 @@ import subprocess
 SECRETS_FILENAME = ".secrets"
 SECRETS_CONTENT = """Project Secret Key: {{cookiecutter.project_secret_key}}
 
+{{cookiecutter.project_name}} First Super-User Email: {{cookiecutter.project_superuser_email}}
+{{cookiecutter.project_name}} First Super-User Password: {{cookiecutter.project_superuser_password}}
+
+
 PostgreSQL Root Password: {{cookiecutter.postgresql_root_password}}
 PostgreSQL First User Password: {{cookiecutter.postgresql_password}}
 
