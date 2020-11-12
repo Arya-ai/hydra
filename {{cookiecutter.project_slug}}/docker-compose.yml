@@ -3,7 +3,7 @@ version: '3.6'
 services:
   nginx:
     image: bitnami/nginx:latest
-    container_name: {{cookiecutter.project_slug}}_nginx
+    container_name: "{{cookiecutter.project_slug}}_nginx"
     ports:
       - target: 8080
         published: 80
@@ -18,7 +18,7 @@ services:
 
   api:
     image: arya/{{cookiecutter.project_slug}}-api:latest
-    container_name: {{cookiecutter.project_slug}}_api
+    container_name: "{{cookiecutter.project_slug}}_api"
     depends_on:
       - postgresql
       - rabbitmq
@@ -32,7 +32,7 @@ services:
 
   worker:
     image: arya/{{cookiecutter.project_slug}}-worker:latest
-    container_name: {{cookiecutter.project_slug}}_worker
+    container_name: "{{cookiecutter.project_slug}}_worker"
     depends_on:
       - api
       - rabbitmq
@@ -46,7 +46,7 @@ services:
 
   postgresql:
     image: bitnami/postgresql:latest
-    container_name: {{cookiecutter.project_slug}}_postgresql
+    container_name: "{{cookiecutter.project_slug}}_postgresql"
     env_file:
       - ./envs/local/postgresql.env 
     volumes:
@@ -56,7 +56,7 @@ services:
 
   rabbitmq:
     image: bitnami/rabbitmq:latest
-    container_name: {{cookiecutter.project_slug}}_rabbitmq
+    container_name: "{{cookiecutter.project_slug}}_rabbitmq"
     env_file:
       - ./envs/local/rabbitmq.env
     volumes:
@@ -66,10 +66,10 @@ services:
 
 volumes:
   postgresql_volume:
-    name: {{cookiecutter.project_slug}}_postgresql_volume
+    name: "{{cookiecutter.project_slug}}_postgresql_volume"
   rabbitmq_volume:
-    name: {{cookiecutter.project_slug}}_rabbitmq_volume
+    name: "{{cookiecutter.project_slug}}_rabbitmq_volume"
 
 networks:
   internal_network:
-    name: {{cookiecutter.project_slug}}_network
+    name: "{{cookiecutter.project_slug}}_network"
